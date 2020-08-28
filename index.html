@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undian Berhadiah</title>
+    <style>
+        label {
+            width:120px;
+            float: left;
+            margin-right: 10px;
+        }
+        label[for="syarat"] {
+        float: none;
+        }
+
+        div.area {
+            width: 600px;
+            padding: 10px 40px 30px;
+            margin: 20px auto;
+            box-shadow: 1px 0px 10px;
+            background-color: rgb(226, 219, 219);
+        }
+
+        h1 {
+            text-align: center;
+            font-family: Cambria, Georgia, Times, 'Times New Roman', serif;
+        }
+
+    </style>
+
+</head>
+<body>
+<div class="area">
+   <h1>Form Undian Berhadiah</h1>
+   <form id="formKu" name="formKu" method="get" action="halaman2.html">
+   <p><label>Nama Pemenang:</label><input type="text" placeholder="masukkan nama pemenang" id="pemenang"/>
+    <span id="pemenangSpan"></span></p>
+   <p><label>Kode Undian:</label><input type="text" placeholder="(masukan Kode Undian)" id="kode"/>
+   <span id="kodeundi"></span></p>
+   <p><input type="checkbox" name="syarat" id="syarat"/>
+   <label for="syarat">Saya menyetujui pajak 10% ditanggung pemenang</label>
+   <span id="syaratSpan"></span></p>
+   <input type="submit" id="submit" value="proses data undian" />
+   <p><label for="syarat">Note: Asumsi semua inputan nama pemenang sudah terdaftar </label></p>
+   <p><label for="syarat">Asumsi Kode Undian adalah = kgd-04</label></p>
+   </form>
+</div>
+<script>
+   let formKu = document.getElementById("formKu")
+   let pemenang = document.getElementById("pemenang")
+   let pemenangS = document.getElementById("pemenangSpan")
+   let kodeNode = document.getElementById("kode")
+   let kode = document.getElementById("kodeundi")
+   let syarat = document.getElementById("syarat")
+   let syaratSpan = document.getElementById("syaratSpan")
+   
+   
+function diProses(event){
+
+let pemenangError=""
+if (pemenang.value.trim() === ""){
+    pemenangError = "Nama pemenang harus diisi"
+}
+else if (pemenang.value.trim().length < 6 ){
+  pemenangError = "Nama pemenang minimal 6 karakter"
+}
+if (pemenangError !== ""){
+  pemenangS.innerHTML = pemenangError;
+  pemenangS.className = "error"
+  pemenang.style.border = "2px solid red"
+  event.preventDefault();
+} else {
+  pemenang.style.border = "2px solid green"
+}
+
+let undiErr=""
+if (kodeNode.value.trim() === ""){
+  undiErr = "Kode Undian harus diisi"
+}
+else if (kodeNode.value.trim() !== 'kgd-04' ){
+  undiErr = "Kode undian tidak terdaftar"
+}
+if (undiErr !== ""){
+  kode.innerHTML = undiErr;
+  kode.className = "error"
+  kodeNode.style.border = "2px solid red"
+  event.preventDefault();
+} else {
+  kodeNode.style.border = "2px solid green"
+ 
+let syaratError="";
+if (syarat.checked !== true){
+  syaratError = `"Syarat harus di setujui"`
+}
+if (syaratError !== ""){
+  syaratSpan.innerHTML = syaratError;
+  syaratSpan.className = "error"
+  event.preventDefault()
+}
+}
+function hapusError(event){
+  event.target.parentElement.lastChild.innerHTML = ""
+  event.target.parentElement.lastChild.className = ""
+  event.target.style.border = ""
+}
+}
+formKu.addEventListener("submit",diProses)
+pemenang.addEventListener("focus",hapusError)
+kodeNode.addEventListener("focus",hapusError);
+syarat.addEventListener("focus",hapusError)
+
+
+</script>
+</body>
+</html>
